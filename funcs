@@ -1,0 +1,48 @@
+#!/bin/sh
+bigintat () {
+	hexdump -e'/8 "%d"' -n8 -s$2 $1
+}
+eflags () {
+	intat $1 48
+}
+epof () {
+	bigintat $1 24
+}
+intat () {
+	hexdump -e'/4 "%d"' -n4 -s$2 $1
+}
+isanelf () {
+	if [ -x $1 ]
+	then
+		first4=$(hexdump -v -e'"%X"' -n4 $1)
+		if [ $first4 = 464C457F ]
+		then
+			return 0
+		else
+			return 1
+		fi
+	else
+		return 1
+	fi
+}
+phentsize () {
+	wordat $1 54
+}
+phnum () {
+	wordat $1 56
+}
+phof () {
+	bigintat $1 32
+}
+shentsize () {
+	wordat $1 58
+}
+shnum () {
+	wordat $1 60
+}
+shof () {
+	bigintat $1 40
+}
+wordat () {
+	hexdump -e'/2 "%d"' -n2 -s$2 $1
+}
