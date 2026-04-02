@@ -1,10 +1,5 @@
 #!/bin/sh
-bigintat () {
-	hexdump -e'/8 "%d"' -n8 -s$2 $1
-}
-bytesat () {
-	hexdump -e'/1 "%02X"' -n$3 -s$2 $1 -v
-}
+. bytebash
 eflags () {
 	intat $1 48
 }

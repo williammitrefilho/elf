@@ -1,0 +1,13 @@
+#!/bin/sh
+bigintat () {
+	hexdump -e'/8 "%d"' -n8 -s$2 $1
+}
+bytelist () {
+	echo $1 | sed -e"s/[0-9A-F]\{2\}/ &/g"
+}
+bytesat () {
+	hexdump -e'/1 "%02X"' -n$3 -s$2 $1 -v
+}
+int32from () {
+	blist=($(bytelist $1))
+}
