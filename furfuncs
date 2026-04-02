@@ -1,0 +1,43 @@
+#!/bin/sh
+. funcs
+shtypes=(NULL PROGBITS SYMTAB STRTAB RELA HASH DYNAMIC NOTE NOBITS)
+shat () {
+	sho=$(shof $1)
+	shs=$(shentsize $1)
+	shn=$(shnum $1)
+	sbase=$(($sho+($2-1)*$shs))
+	echo section $2/$shn of $1:
+	sname=$(intat $1 $sbase)
+	echo $'\tsection name offset: '$sname
+	sbase=$(($sbase+4))
+	stype=${shtypes[$(intat $1 $sbase)]}
+	echo $'\tsection type: '$stype
+	sbase=$(($sbase+4))
+	sflags=$(secflags $(bigintat $1 $sbase))
+	echo $'\tsection flags: '$sflags
+	sbase=$(($sbase+8))
+	saddr=$(bigintat $1 $sbase)
+	echo $'\tsection address: '$saddr
+	sbase=$(($sbase+8))
+	soffset=$(bigintat $1 $sbase)
+	echo $'\tsection offset: '$soffset
+	sbase=$(($sbase+8))
+	ssize=$(bigintat $1 $sbase)
+	echo $'\tsection size: '$ssize
+	sbase=$(($sbase+8))
+	slink=$(intat $1 $sbase)
+	echo $'\tsection link: '$slink
+	sbase=$(($sbase+4))
+	sinfo=$(intat $1 $sbase)
+	echo $'\tsection info: '$sinfo
+	sbase=$(($sbase+4))
+	saddral=$(bigintat $1 $sbase)
+	echo $'\tsection addr. align: '$saddral
+	sbase=$(($sbase+8))
+	sentsize=$(bigintat $1 $sbase)
+	echo $'\tsection ent. size: '$sentsize
+	sbase=$(($sbase+8))
+}
+secflags () {
+	runflags $1 writable allocable executable
+}
