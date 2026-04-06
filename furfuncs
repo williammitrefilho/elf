@@ -10,8 +10,9 @@ shat () {
 	sname=$(intat $1 $sbase)
 	echo $'\tsection name offset: '$sname
 	sbase=$(($sbase+4))
-	stype=${shtypes[$(intat $1 $sbase)]}
-	echo $'\tsection type: '$stype
+	intstype=$(intat $1 $sbase)
+	stype=${shtypes[$intstype]}
+	echo $'\tsection type: '$stype$' ('$(printf "%02X" $intstype)$')'
 	sbase=$(($sbase+4))
 	sflags=$(secflags $(bigintat $1 $sbase))
 	echo $'\tsection flags: '$sflags

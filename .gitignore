@@ -1,3 +1,8 @@
-main
+*.s
+mary
+maryenpt
+r*.c
+unc*.c
+d*.c
+*main
 *.o
-*.swp

@@ -1,4 +1,5 @@
 #!/bin/sh
+. hexars
 bigintat () {
 	hexdump -e'/8 "%d"' -n8 -s$2 $1
 }
